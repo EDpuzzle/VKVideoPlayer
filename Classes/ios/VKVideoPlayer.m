@@ -526,6 +526,10 @@ typedef enum {
   if (avPlayer) {
     __weak __typeof(self) weakSelf = self;
     [avPlayer addObserver:self forKeyPath:@"status" options:0 context:nil];
+    
+    if (!self.timeObserverInterval) {
+        self.timeObserverInterval = CMTimeMake(1, 1);
+    }
     self.timeObserver = [avPlayer addPeriodicTimeObserverForInterval:self.timeObserverInterval queue:NULL usingBlock:^(CMTime time){
       [weakSelf periodicTimeObserver:time];
     }];
