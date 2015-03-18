@@ -46,7 +46,6 @@ typedef enum {
 @property (nonatomic, strong) id captionTopTimer;
 @property (nonatomic, strong) id captionBottomTimer;
 
-
 @end
 
 
@@ -68,6 +67,26 @@ typedef enum {
     [self initialize];
   }
   return self;
+}
+
+- (id)initWithTimeObserverInterval:(CMTime)time {
+    self = [self init];
+    if (self) {
+        self.view = [[VKVideoPlayerView alloc] init];
+        self.timeObserverInterval = time;
+        [self initialize];
+    }
+    return self;
+}
+
+- (id)initWithVideoPlayerView:(VKVideoPlayerView*)videoPlayerView andTimeObserverInterval:(CMTime)time {
+    self = [super init];
+    if (self) {
+        self.view = videoPlayerView;
+        self.timeObserverInterval = time;
+        [self initialize];
+    }
+    return self;
 }
 
 - (void)dealloc {
@@ -507,7 +526,7 @@ typedef enum {
   if (avPlayer) {
     __weak __typeof(self) weakSelf = self;
     [avPlayer addObserver:self forKeyPath:@"status" options:0 context:nil];
-    self.timeObserver = [avPlayer addPeriodicTimeObserverForInterval:CMTimeMake(1, 1) queue:NULL usingBlock:^(CMTime time){
+    self.timeObserver = [avPlayer addPeriodicTimeObserverForInterval:self.timeObserverInterval queue:NULL usingBlock:^(CMTime time){
       [weakSelf periodicTimeObserver:time];
     }];
     

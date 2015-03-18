@@ -128,8 +128,11 @@ VKVideoPlayerViewDelegate
 @property (nonatomic, assign) CGRect landscapeFrame;
 @property (nonatomic, assign) BOOL forceRotate;
 
+@property (nonatomic, assign) CMTime timeObserverInterval;
 
 - (id)initWithVideoPlayerView:(VKVideoPlayerView*)videoPlayerView;
+- (id)initWithTimeObserverInterval:(CMTime)time;
+- (id)initWithVideoPlayerView:(VKVideoPlayerView*)videoPlayerView andTimeObserverInterval:(CMTime)time;
 
 - (void)seekToLastWatchedDuration;
 - (void)seekToTimeInSecond:(float)sec userAction:(BOOL)isUserAction completionHandler:(void (^)(BOOL finished))completionHandler;
